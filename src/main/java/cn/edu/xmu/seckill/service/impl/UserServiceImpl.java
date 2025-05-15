@@ -1,5 +1,6 @@
 package cn.edu.xmu.seckill.service.impl;
 
+import cn.edu.xmu.seckill.exception.GlobalException;
 import cn.edu.xmu.seckill.mapper.UserMapper;
 import cn.edu.xmu.seckill.pojo.User;
 import cn.edu.xmu.seckill.service.IUserService;
@@ -43,13 +44,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //     根据手机号获取用户
         User user = userMapper.selectById(mobile);
         if (user == null) {
-            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+            throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
+//            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
         }
 //判断密码是否正确
 //        System.out.println(MD5Util.inputPassToDBPass(password, user.getSalt()));
 //        System.out.println(MD5Util.formPassToDBPass(password, user.getSalt()));
         if (!MD5Util.formPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
-            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+            throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
+//            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
         }
         return RespBean.success();
     }
