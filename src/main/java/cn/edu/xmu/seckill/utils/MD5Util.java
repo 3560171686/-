@@ -13,7 +13,7 @@ public class MD5Util {
     }
 
     //加密所用盐
-    private static final String salt = "liyejia0423";
+    private static final String salt = "1a2b3c4d";
 
     //输入密码到中间密码第一次MD5加密
     public static String inputPassToFormPass(String inputPass) {

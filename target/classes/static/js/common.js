@@ -11,7 +11,7 @@ function g_showLoading() {
 }
 
 //salt
-var g_passsword_salt = "liyejia0423"
+var g_passsword_salt = "1a2b3c4d"
 
 // 获取url参数
 function g_getQueryString(name) {
