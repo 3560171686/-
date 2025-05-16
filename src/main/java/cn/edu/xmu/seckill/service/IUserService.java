@@ -5,6 +5,10 @@ import cn.edu.xmu.seckill.vo.LoginVo;
 import cn.edu.xmu.seckill.vo.RespBean;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
 /**
  * <p>
  * 服务类
@@ -16,5 +20,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUserService extends IService<User> {
     /*登录
      * */
-    RespBean doLogin(LoginVo loginVo);
+    RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
+
+    User getUserByCookie(String userTicket, HttpServletRequest request, HttpServletResponse response);
 }
+
