@@ -1,26 +1,36 @@
 package cn.edu.xmu.seckill.controller;
 
 import cn.edu.xmu.seckill.pojo.User;
+import cn.edu.xmu.seckill.service.IGoodsService;
 import cn.edu.xmu.seckill.service.IUserService;
+import cn.edu.xmu.seckill.vo.GoodsVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import java.util.Date;
+
 
 
 @Controller
-@RequestMapping("/goods")
 public class GoodsController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IGoodsService goodsService;
 
-    @GetMapping("/toList")
+    /**
+     * 跳转首页
+     * @param model
+     * @param user
+     * @return
+     */
+    @GetMapping("/goods/toList")
     public String tolist(Model model, User user){
 //        if(ticket == null){
 //            return "login";
@@ -31,6 +41,40 @@ public class GoodsController {
 //            return "login";
 //        }
         model.addAttribute("user",user);
+        model.addAttribute("goodsList",goodsService.findGoodsVo());
         return "goodsList";
+    }
+
+    /**
+     * 跳转详情页
+     * @param goodsId
+     * @param model
+     * @param user
+     * @return
+     */
+    @GetMapping("/goodsDetail.html")
+    public String goodsDetail(@RequestParam Long goodsId, Model model, User user){
+        GoodsVo goods = goodsService.findGoodsById(goodsId);
+        Date start = goods.getStartDate();
+        Date end = goods.getEndDate();
+        Date now = new Date();
+        //秒杀状态
+        int secKillStatus = 0;
+        //秒杀倒计时
+        int remainSeconds = 0;
+        if(now.before(start)){
+            remainSeconds = (int)((start.getTime() - now.getTime())/1000);
+        }else if(now.after(end)){
+            remainSeconds = -1;
+            secKillStatus = 2;
+        }else{
+            secKillStatus = 1;
+        }
+
+        model.addAttribute("user",user);
+        model.addAttribute("secKillStatus",secKillStatus);
+        model.addAttribute("remainSeconds",remainSeconds);
+        model.addAttribute("goods",goods);
+        return "goodsDetail";
     }
 }
