@@ -7,19 +7,15 @@ import cn.edu.xmu.seckill.service.IUserService;
 import cn.edu.xmu.seckill.utils.CookieUtil;
 import cn.edu.xmu.seckill.utils.MD5Util;
 import cn.edu.xmu.seckill.utils.UUIDUtil;
-import cn.edu.xmu.seckill.utils.ValidatorUtil;
 import cn.edu.xmu.seckill.vo.LoginVo;
 import cn.edu.xmu.seckill.vo.RespBean;
 import cn.edu.xmu.seckill.vo.RespBeanEnum;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 
 /**
@@ -68,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        request.getSession().setAttribute (UserTicket,user);
         CookieUtil.setCookie(request, response, "UserTicket", UserTicket);
 
-        return RespBean.success();
+        return RespBean.success(UserTicket);
     }
 
     /**
