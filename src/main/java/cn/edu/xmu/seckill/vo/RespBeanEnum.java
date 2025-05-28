@@ -16,7 +16,8 @@ public enum RespBeanEnum {
     LOGIN_ERROR(500210, "用户名或密码错误"),
     MOBILE_ERROR(500211, "手机号码格式不正确"),
     BIND_ERROR(500212,"参数校验异常"),
-
+    MOBILE_NOT_EXIT(500213, "手机号码不存在"),
+    PASSWORD_UPDATE_FAIL(500214, "密码更新失败"),
     //秒杀模块
     EMPTY_STOCK(500501, "库存不够"),
     HAS_SECKILL(500502, "该商品每人限购一次"),
