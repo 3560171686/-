@@ -17,6 +17,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     /**
      * 查找商品列表
+     *
      * @return
      */
     @Override
@@ -26,6 +27,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     /**
      * 根据ID查询goods
+     *
      * @param id
      * @return
      */

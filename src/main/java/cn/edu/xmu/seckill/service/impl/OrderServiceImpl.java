@@ -24,7 +24,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Autowired
     private ISeckillOrderService seckillOrderService;
     @Autowired
-    private ISeckillGoodsService  seckillGoodsService;
+    private ISeckillGoodsService seckillGoodsService;
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -32,6 +32,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 秒杀
+     *
      * @param user
      * @param goods
      * @return
@@ -40,16 +41,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public Order seckill(User user, GoodsVo goods) {
         //查询秒杀商品
         QueryWrapper<SeckillGoods> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("goods_id",goods.getId());
+        queryWrapper.eq("goods_id", goods.getId());
         SeckillGoods seckillGoods = seckillGoodsService.getOne(queryWrapper);
 
         //库存减一
         UpdateWrapper<SeckillGoods> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.setSql("stock_count ="+"stock_count - 1");
-        updateWrapper.eq("id",seckillGoods.getId());
-        updateWrapper.gt("stock_count",0);
+        updateWrapper.setSql("stock_count =" + "stock_count - 1");
+        updateWrapper.eq("id", seckillGoods.getId());
+        updateWrapper.gt("stock_count", 0);
         boolean seckilled = seckillGoodsService.update(updateWrapper);
-        if(!seckilled){
+        if (!seckilled) {
             return null;
         }
         //生成订单

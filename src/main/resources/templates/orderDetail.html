@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>订单详情</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!-- jquery -->
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <!-- bootstrap -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
     <!-- layer -->
     <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>商品图片</td>
-            <td colspan="2"><img th:src="@{${goods.goodsImg}}" width="200" height="200" /></td>
+            <td colspan="2"><img th:src="@{${goods.goodsImg}}" width="200" height="200"/></td>
         </tr>
         <tr>
             <td>订单价格</td>
@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <td>订单状态</td>
-            <td >
+            <td>
                 <span th:if="${order.status eq 0}">未支付</span>
                 <span th:if="${order.status eq 1}">待发货</span>
                 <span th:if="${order.status eq 2}">已发货</span>
@@ -49,11 +49,11 @@
         </tr>
         <tr>
             <td>收货人</td>
-            <td colspan="2">XXX  18012345678</td>
+            <td colspan="2">李叶佳 15074066846</td>
         </tr>
         <tr>
             <td>收货地址</td>
-            <td colspan="2">上海市浦东区世纪大道</td>
+            <td colspan="2">福建省厦门市厦门大学翔安校区</td>
         </tr>
     </table>
 </div>
