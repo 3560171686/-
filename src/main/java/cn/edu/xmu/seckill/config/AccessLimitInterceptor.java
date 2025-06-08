@@ -2,6 +2,8 @@ package cn.edu.xmu.seckill.config;
 
 import cn.edu.xmu.seckill.pojo.User;
 import cn.edu.xmu.seckill.service.IUserService;
+import cn.edu.xmu.seckill.utils.CookieUtil;
+import cn.edu.xmu.seckill.vo.RespBean;
 import cn.edu.xmu.seckill.vo.RespBeanEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
