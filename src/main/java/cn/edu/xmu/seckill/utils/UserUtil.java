@@ -104,7 +104,7 @@ public class UserUtil {
     private static Connection getConn() throws Exception {
         String url = "jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai";
         String username = "root";
-        String password = "liyejia0423";
+        String password = "200520lxl..";
         String driver = "com.mysql.cj.jdbc.Driver";
         Class.forName(driver);
         return DriverManager.getConnection(url, username, password);
