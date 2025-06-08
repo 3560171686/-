@@ -144,11 +144,6 @@ public class GoodsController {
 //        html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail", context);
         JakartaServletWebApplication app = JakartaServletWebApplication.buildApplication(request.getServletContext());
         IServletWebExchange exchange = app.buildExchange(request, response);
-        // 创建 Map 合并所有变量
-        Map<String, Object> allVariables = new HashMap<>();
-        allVariables.putAll(model.asMap()); // 模型变量
-        allVariables.putAll(exchange.getRequest().getAttributeMap()); // 请求属性
-        allVariables.putAll(exchange.getSession().getAttributeMap()); // 会话属性
         WebContext webContext = new WebContext(exchange, request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail", webContext);
         if (!StringUtils.isEmpty(html)) {
