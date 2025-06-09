@@ -46,8 +46,8 @@
                 </form>-->
                 <div class="row">
                     <div class="form-inline">
-                        <img id="captchaImg" width="130" height="32" onclick="refreshCaptcha()" style="display: none">
-                        <input id="captcha" class="form-control" style="display: none">
+<!--                        <img id="captchaImg" width="130" height="32" onclick="refreshCaptcha()" style="display: none">-->
+<!--                        <input id="captcha" class="form-control" style="display: none">-->
                         <button class="btn btn-primary" type="button" id="buyButton" onclick="getSeckillPath()">
                             立即秒杀
                             <input type="hidden" name="goodsId" id="goodsId">
@@ -169,8 +169,14 @@
             url: "/goods/toDetail/" + goodsId,
             type: "GET",
             success: function (data) {
+                console.log("完整API响应:", data);
                 if (data.code == 200) {
-                    render(data.obj);
+                    if (data.object && data.object.goodsVo) {
+                        render(data.object);
+                    } else {
+                        console.error("API返回数据格式异常", data.object);
+                        layer.msg("商品信息格式错误");
+                    }
                 } else {
                     layer.msg(data.message)
                 }
@@ -181,10 +187,23 @@
         });
     }
 
+    // 全局变量，控制倒计时状态
+    let countdownActive = false;
+    let countdownTimer = null;
     function render(detail){
-        var user = detail.user;
-        var goods = detail.goodsVO;
-        var remainSeconds = detail.remainSeconds;
+        if (!detail || typeof detail !== "object") {
+            console.error("非法渲染数据:", detail);
+            layer.msg("商品数据无效");
+            return;
+        }
+
+        // 停止可能存在的倒计时
+        clearTimeout(countdownTimer);
+        countdownActive = false;
+
+        const user = detail.user || null;
+        const goods = detail.goodsVo || {};
+        const remainSeconds = detail.remainSeconds || -1;
         if(user) {
             $("#userTip").hide();
         }
@@ -196,27 +215,25 @@
         $("#goodsPrice").text(goods.goodsPrice);
         $("#seckillPrice").text(goods.seckillPrice);
         $("#stockCount").text(goods.stockCount);
-        countDown();
-    }
 
-    function countDown() {
-        var remainSeconds = $("#remainSeconds").val();
-        var timeout;
-        if(remainSeconds > 0) {
-            $("#buyButton").attr("disabled", true);
-            $("#seckillTip").html("秒杀倒计时："+remainSeconds+"秒");
-            timeout = setTimeout(function(){
-                //$("#countDown").text(remainSeconds - 1);
-                $("#remainSeconds").val(remainSeconds - 1);
-                countDown();
-            },1000);
-        } else if(remainSeconds == 0) {
+        // 仅在未开始秒杀时启动倒计时
+        if (detail.remainSeconds > 0) {
+            countdownActive = true;
+            countDown(detail.remainSeconds);
+        } else {
+            updateSeckillState();
+        }
+
+        // 根据初始状态设置界面
+        if (remainSeconds === 0) {
             $("#buyButton").attr("disabled", false);
-            if(timeout) clearTimeout(timeout);
             $("#seckillTip").html("秒杀进行中");
             $("#captchaImg").attr("src", "/secKill/captcha?goodsId=" + $("#goodsId").val() + "&time=" + new Date());
             $("#captchaImg").show();
             $("#captcha").show();
+        } else if (remainSeconds > 0) {
+            // 使用全局倒计时函数
+            countDown(remainSeconds);
         } else {
             $("#buyButton").attr("disabled", true);
             $("#seckillTip").html("秒杀已经结束");
@@ -224,5 +241,64 @@
             $("#captcha").hide();
         }
     }
+
+    function countDown() {
+        if (!countdownActive) return;
+
+        // 更新DOM值
+        $("#remainSeconds").val(seconds);
+
+        if (seconds > 0) {
+            $("#seckillTip").html("秒杀倒计时：" + seconds + "秒");
+            $("#buyButton").attr("disabled", true);
+
+            // 单次定时器，不再递归
+            countdownTimer = setTimeout(() => {
+                countDown(seconds - 1);
+            }, 1000);
+        } else {
+            // 倒计时结束，进入秒杀状态
+            updateSeckillState();
+        }
+    }
+
+    function updateSeckillState() {
+        // 清除倒计时
+        clearTimeout(countdownTimer);
+        countdownActive = false;
+
+        // 从后端获取当前状态
+        $.ajax({
+            url: "/goods/toDetail/" + $("#goodsId").val(),
+            success: function (data) {
+                if (data.code === 200) {
+                    const detail = data.object;
+                    if (detail.remainSeconds === 0) {
+                        // 秒杀进行中
+                        $("#buyButton").attr("disabled", false);
+                        $("#seckillTip").html("秒杀进行中");
+                        $("#captchaImg").show();
+                        $("#captcha").show();
+                    } else {
+                        // 秒杀已结束
+                        $("#buyButton").attr("disabled", true);
+                        $("#seckillTip").html("秒杀已经结束");
+                        $("#captchaImg").hide();
+                        $("#captcha").hide();
+                    }
+                }
+            }
+        });
+    }
+
+    $(function() {
+        // 页面卸载时清理
+        window.addEventListener("beforeunload", function() {
+            clearTimeout(countdownTimer);
+            countdownActive = false;
+        });
+
+        getDetails();
+    });
 </script>
 </html>

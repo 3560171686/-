@@ -1,9 +1,10 @@
 package cn.edu.xmu.seckill.vo;
 
 import cn.edu.xmu.seckill.validator.IsMobile;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 /*登陆参数
  * */

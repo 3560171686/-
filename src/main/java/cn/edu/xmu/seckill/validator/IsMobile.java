@@ -1,9 +1,9 @@
 package cn.edu.xmu.seckill.validator;
 
 import cn.edu.xmu.seckill.vo.IsMobileValidator;
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
 
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /*

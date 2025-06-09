@@ -3,14 +3,15 @@ package cn.edu.xmu.seckill.controller;
 import cn.edu.xmu.seckill.service.IUserService;
 import cn.edu.xmu.seckill.vo.LoginVo;
 import cn.edu.xmu.seckill.vo.RespBean;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 
 @Controller

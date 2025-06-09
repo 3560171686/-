@@ -11,11 +11,12 @@ import cn.edu.xmu.seckill.vo.LoginVo;
 import cn.edu.xmu.seckill.vo.RespBean;
 import cn.edu.xmu.seckill.vo.RespBeanEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**

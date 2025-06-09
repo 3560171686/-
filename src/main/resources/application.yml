@@ -1,4 +1,26 @@
 spring:
+  #RabbitMQ
+  rabbitmq:
+    host: 192.168.20.135
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1.0
+
   thymeleaf:
     cache: false
   datasource:
@@ -32,6 +54,19 @@ spring:
           #最大空闲连接，默认8
           max-idle: 200
 
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        cachecontrol:
+          max-age: 3600
+      chain:
+        cache: true
+        enabled: true
+        compressed: true
+        html-application-cache: true
+      static-locations: classpath:/static/
+
 #mybatis-plus
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
@@ -40,3 +75,4 @@ mybatis-plus:
 logging:
   level:
     cn.edu.xmu.seckill.mapper: debug
+
